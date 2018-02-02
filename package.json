@@ -1,0 +1,29 @@
+{
+    "name": "cordova-cleanup-plugins",
+    "version": "1.0.0",
+    "description": "Removes installed plugins and installs the plugins listed in the config.xml file.",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DavidBriglio/cordova-cleanup-plugins.git"
+    },
+    "keywords": [
+        "cordova",
+        "cleanup",
+        "plugin",
+        "plugins",
+        "clean"
+    ],
+    "author": "David Briglio",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/DavidBriglio/cordova-cleanup-plugins/issues"
+    },
+    "homepage": "https://github.com/DavidBriglio/cordova-cleanup-plugins#readme",
+    "bin": {
+        "cordova-clean": "./index.js"
+    },
+    "dependencies": {
+        "cordova": "*"
+    }
+}
