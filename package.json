@@ -1,7 +1,7 @@
 {
     "name": "cordova-cleanup-plugins",
-    "version": "1.0.0",
-    "description": "Removes installed plugins and installs the plugins listed in the config.xml file.",
+    "version": "1.0.1",
+    "description": "Removes installed plugins and adds the plugins listed in the config.xml file.",
     "main": "index.js",
     "repository": {
         "type": "git",
