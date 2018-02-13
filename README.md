@@ -11,8 +11,10 @@ npm install cordova-clean
 ## How To Use 
 Run the shell command: `cordova-clean <COMMAND> <OPTIONS>`
 
+### Commands
+
 | Command | Explanation |
-|---|---|---|
+|---|---|
 | `clean` | Atomic approach that will remove all installed plugins and platforms, and add all plugings and platforms specified in config.xml. |
 | `plugins` | Removes all installed plugins and installs plugins specified in config.xml. |
 | `platforms` | Removes all platforms and installs platforms specified in config.xml. |
@@ -28,7 +30,7 @@ Run the shell command: `cordova-clean <COMMAND> <OPTIONS>`
 | `--noadd` | `--na` | `clean`, `plugins`, `platforms`, `sync` | Prevents adding plugins/platforms. Use this if you only want to remove installed plugins/platforms, without adding from the config.xml. |
 | `--soft` | `--s` | `sync` | Will only compare the plugin/platform name, not the version. Use this if you do not care what version of the plugin/platform you want to use. |
 
-## Questions?
+# Questions?
 Feel free to open an issue if you are having issues or would like to contribute!
 
 # MIT License
