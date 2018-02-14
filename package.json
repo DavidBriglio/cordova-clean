@@ -23,7 +23,7 @@
     },
     "homepage": "https://github.com/DavidBriglio/cordova-clean#readme",
     "bin": {
-        "cordova-clean": "./index.js"
+        "cordova-clean": "./src/index.js"
     },
     "dependencies": {
         "cordova": "*"

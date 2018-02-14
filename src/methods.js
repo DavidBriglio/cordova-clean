@@ -25,7 +25,7 @@ exports.findInstalledPlugins = function() {
     while (match !== null) {
         var found = {
             name: match[1],
-            version: match[2].replace("git+", "").replace("^", "").replace("~", "")
+            version: match[2]
         };
         console.log("FOUND " + found.name + " @ " + found.version);
         plugins.push(found);
@@ -63,7 +63,7 @@ exports.findConfigPlatforms = function(content) {
         console.log("FOUND " + match[1] + " @ " + match[2]);
         platforms.push({
             name: match[1],
-            version: match[2].replace("git+", "").replace("^", "").replace("~", "")
+            version: match[2]
         });
         match = pattern.exec(content);
     }
@@ -89,7 +89,7 @@ exports.findConfigPlugins = function(content) {
     var plugins = [];
     while (match !== null) {
         console.log("FOUND " + match[1] + " @ " + match[2]);
-        plugins.push({name:match[1], version:match[2].replace("git+", "").replace("^", "").replace("~", "")});
+        plugins.push({name:match[1], version:match[2]});
         match = pattern.exec(content);
     }
     return plugins;
@@ -145,57 +145,4 @@ exports.installPlugins = function(plugins, options) {
             }
         }
     }
-};
-
-exports.indexOfItem = function(set, item, noVersion) {
-    for (var index in set) {
-        if (set[index].name === item.name && (noVersion || set[index].version === item.version)) {
-            return index;
-        }
-    }
-    return -1;
-};
-
-exports.getPluginDifference = function(iset, set) {
-    var toAdd = [];
-
-    for (var item in set) {
-        var properVersion = false;
-        var index = this.indexOfItem(iset, set[item], true);
-        
-        if (index < 0) {
-            toAdd.push(set[item]);
-        }
-        if (index >= 0 && (set[item].version.indexOf(".com/") || set[item].version.indexOf("file:"))) {
-            properVersion = fs.readFileSync(process.cwd() + "/plugins/" + set[item].name + "/plugin.xml").indexOf(set[item].version);
-            if (properVersion) {
-                iset.splice(index, 1);
-            } else {
-                toAdd.push(set[item]);
-            }
-        }
-    }
-
-    return {
-        toAdd: toAdd,
-        toRemove: iset
-    };
-};
-
-exports.getDifference = function(iset, set, soft) {
-    var toAdd = [];
-
-    for (var item in set) {
-        var index = this.indexOfItem(iset, set[item], soft);
-        if (index < 0) {
-            toAdd.push(set[item]);
-        } else {
-            iset.splice(index, 1);
-        }
-    }
-
-    return {
-        toAdd: toAdd,
-        toRemove: iset
-    };
 };
