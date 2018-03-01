@@ -126,23 +126,23 @@ exports.installPlatforms = function(platforms) {
 exports.installPlugins = function(plugins, options) {
     for (var index in plugins) {
         var plugin = plugins[index];
+        var pluginLine = "";
         console.log("\n===> Installing " + plugin.name + " @ " + plugin.version);
+        
         if (plugin.version.match("git+")) {
-            try {
-                cmd.execSync("cordova plugin add " + plugin.version + (options.fetch ? "" : " --nofetch ") + " --nosave", {
-                    stdio: [0, 1, 2]
-                });
-            } catch (e) {
-                // Do nothing, we do not want to stop if there was an error installing the plugin
-            }
+            pluginLine = plugin.version + (options.fetch ? "" : " --nofetch ");
+        } else if (plugin.version.match("file:")) {
+            pluginLine = plugin.version.replace("file:", "");
         } else {
-            try {
-                cmd.execSync("cordova plugin add " + plugin.name + "@" + plugin.version + " --nosave", {
-                    stdio: [0, 1, 2]
-                });
-            } catch (e) {
-                // Do nothing, we do not want to stop if there was an error installing the plugin
-            }
+            pluginLine = plugin.name + "@" + plugin.version;
+        }
+        
+        try {
+            cmd.execSync("cordova plugin add " + pluginLine + " --nosave", {
+                stdio: [0, 1, 2]
+            });
+        } catch (e) {
+            // Do nothing, we do not want to stop if there was an error installing the plugin
         }
     }
 };
