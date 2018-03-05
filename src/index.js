@@ -9,7 +9,8 @@ var options = {
     noForce: (process.argv.indexOf("--noforce") >= 0 || process.argv.indexOf("--nf") >= 0),
     noRemove: (process.argv.indexOf("--noremove") >= 0 || process.argv.indexOf("--nr") >= 0),
     fetch: (process.argv.indexOf("--gitfetch") >= 0 || process.argv.indexOf("--gf") >= 0),
-    noAdd: (process.argv.indexOf("--noadd") >= 0 || process.argv.indexOf("--na") >= 0)
+    noAdd: (process.argv.indexOf("--noadd") >= 0 || process.argv.indexOf("--na") >= 0),
+    soft: (process.argv.indexOf("--soft") >= 0 || process.argv.indexOf("--s") >= 0)
 };
 
 console.log(messages.consoleMessages.intro);
@@ -33,6 +34,9 @@ switch (command) {
         break;
     case "platforms":
         processes.platforms(config, options);
+        break;
+    case "sync":
+        processes.sync(config, options);
         break;
     default:
         console.log(messages.helpMessage);

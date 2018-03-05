@@ -1,5 +1,8 @@
 # Changelog
 
+### v1.2.0 - 03/05/2018
+- Added `sync` command
+
 ### v1.1.1 - 03/01/2018
 - Fixed issue with installing plugins from file paths
 

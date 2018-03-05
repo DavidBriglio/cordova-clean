@@ -146,3 +146,28 @@ exports.installPlugins = function(plugins, options) {
         }
     }
 };
+
+exports.findMatch = function(item, itemSet, soft) {
+    for (var i = 0; i < itemSet.length; i++) {
+        if (itemSet[i].name === item.name && (soft === true || itemSet[i].version === item.version)) {
+            return i;
+        }
+    }
+    
+    return null;
+};
+
+exports.getDifference = function(installed, config, options) {
+    var result = { install:config, remove:[] };
+    
+    for (var i = 0; i < installed.length; i++) {
+        var found = this.findMatch(installed[i], config, options.soft);
+        if (found !== null) {
+            result.install.splice(found, 1);
+        } else {
+            result.remove.push(installed[i]);
+        }
+    }
+    
+    return result;
+};
