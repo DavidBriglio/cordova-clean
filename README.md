@@ -19,6 +19,7 @@ Run the shell command: `cordova-clean <COMMAND> <OPTIONS>`
 | `plugins` | Removes all installed plugins and installs plugins specified in config.xml. |
 | `platforms` | Removes all platforms and installs platforms specified in config.xml. |
 | `sync` | This will do the same functionality as clean, but instead of removing/adding everything it will do a smart compare to see which plugins should be added/removed. This will be a shorter process than `clean`, but will not take into account the plugin / platform versions. Note that `--noforce` is not used here, since we do not want to remove any plugins that are dependencies. |
+| `version`, `v`, `-v`, `--v`, `--version`, `-version` | Output package version. |
 
 ### Options
 

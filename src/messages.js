@@ -1,4 +1,3 @@
-
 exports.consoleMessages = {
     done:                       "\n==========================<Done>==========================\n",
     intro:                      "\n================<Cleaning Cordova Plugins>================\n",
@@ -29,6 +28,7 @@ exports.helpMessage = "Available Commands: \n\
 'plugins': Removes all installed plugins and installs plugins specified in config.xml. \n\
 'platforms': Removes all platforms and installs platforms specified in config.xml. \n\
 'sync': This will do the same functionality as clean, but instead of removing/adding everything it will do a smart compare to see which plugins should be added/removed. This will be a shorter process than `clean`, but will not take into account the plugin / platform versions. Note that `--noforce` is not used here, since we do not want to remove any plugins that are dependencies.\n\
+'version' | 'v' | '-v' | '--v' | '--version' | '-version': Output package version. \
 \nCommand Options: \n\
 '--noremove' | '--nr'  (Commands: 'clean', 'plugins', 'platforms', 'sync'): \nPrevents the removal of  plugins/platforms. Use this if you only want to install the config.xml plugins/platforms on top of the installed ones. \n\
 \n'--noforce' | '--nf' | (Commands: 'clean', 'plugins'): \nPrevents force uninstall plugins. By default all plugins are removed using the '--force' flag, this way all plugins will be removed even if they are dependencies to other plugins. \n\

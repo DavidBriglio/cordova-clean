@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var version = "1.2.1";
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 var processes = require("./process.js");
@@ -13,8 +14,6 @@ var options = {
     soft: (process.argv.indexOf("--soft") >= 0 || process.argv.indexOf("--s") >= 0)
 };
 
-console.log(messages.consoleMessages.intro);
-
 // Display which cli options were included
 messages.outputOptions(options);
 
@@ -24,6 +23,20 @@ if (!config) {
     console.log(messages.consoleMessages.done);
     return;
 }
+
+// Process version command before others, that way we don't log intro / outro messages
+switch (command) {
+    case "--version":
+    case "-version":
+    case "v":
+    case "version":
+    case "--v":
+    case "-v":
+        console.log(version);
+        return;
+}
+
+console.log(messages.consoleMessages.intro);
 
 switch (command) {
     case "clean":

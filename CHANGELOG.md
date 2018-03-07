@@ -1,5 +1,9 @@
 # Changelog
 
+### v1.2.1 - 03/07/2018
+- Fixed issue with installing plugins from file paths (replaced '\\' with '/')
+- Added package version command
+
 ### v1.2.0 - 03/05/2018
 - Added `sync` command
 

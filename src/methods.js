@@ -130,9 +130,9 @@ exports.installPlugins = function(plugins, options) {
         console.log("\n===> Installing " + plugin.name + " @ " + plugin.version);
         
         if (plugin.version.match("git+")) {
-            pluginLine = plugin.version + (options.fetch ? "" : " --nofetch ");
+            pluginLine = plugin.version + (options.fetch ? "" : " --nofetch");
         } else if (plugin.version.match("file:")) {
-            pluginLine = plugin.version.replace("file:", "");
+            pluginLine = plugin.version.replace("file:", "").replace('\\', '/') + " --nofetch";
         } else {
             pluginLine = plugin.name + "@" + plugin.version;
         }
