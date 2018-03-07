@@ -27,13 +27,14 @@ exports.helpMessage = "Available Commands: \n\
 'clean': Atomic approach that will remove all installed plugins and platforms, and add all plugings and platforms specified in config.xml. \n\
 'plugins': Removes all installed plugins and installs plugins specified in config.xml. \n\
 'platforms': Removes all platforms and installs platforms specified in config.xml. \n\
-'sync': This will do the same functionality as clean, but instead of removing/adding everything it will do a smart compare to see which plugins should be added/removed. This will be a shorter process than `clean`, but will not take into account the plugin / platform versions. Note that `--noforce` is not used here, since we do not want to remove any plugins that are dependencies.\n\
-'version' | 'v' | '-v' | '--v' | '--version' | '-version': Output package version. \
+'sync': This will do the same functionality as clean, but instead of removing/adding everything it will do a smart compare to see which plugins should be added/removed. This will be a shorter process than `clean`, but will not take into account the plugin / platform versions. Note that `-noforce` is not used here, since we do not want to remove any plugins that are dependencies.\n\
+'version' | 'v' | '-v' | '-version': Output package version. \
 \nCommand Options: \n\
-'--noremove' | '--nr'  (Commands: 'clean', 'plugins', 'platforms', 'sync'): \nPrevents the removal of  plugins/platforms. Use this if you only want to install the config.xml plugins/platforms on top of the installed ones. \n\
-\n'--noforce' | '--nf' | (Commands: 'clean', 'plugins'): \nPrevents force uninstall plugins. By default all plugins are removed using the '--force' flag, this way all plugins will be removed even if they are dependencies to other plugins. \n\
-\n'--gitfetch' | '--gf' | (Commands: 'clean', 'plugins', 'sync'): \nPrevents '--nofetch' from being used when installing git repository plugins. This is mostly an issue with cordova versions below 8, it will fail installing plugins from git repositories because it attempts to add them as an npm package instead of using git. By default nofetch is used to prevent this issue from happening. \n\
-\n'--noadd' | '--na' | (Commands: 'clean', 'plugins', 'platforms', 'sync'): \nPrevents adding plugins/platforms. Use this if you only want to remove installed plugins/platforms, without adding from the config.xml. \n";
+\n'-noremove' | '-nr'  (Commands: 'clean', 'plugins', 'platforms', 'sync'): \nPrevents the removal of  plugins/platforms. Use this if you only want to install the config.xml plugins/platforms on top of the installed ones. \n\
+\n'-noforce' | '-nf' | (Commands: 'clean', 'plugins'): \nPrevents force uninstall plugins. By default all plugins are removed using the '-force' flag, this way all plugins will be removed even if they are dependencies to other plugins. \n\
+\n'-gitfetch' | '-gf' | (Commands: 'clean', 'plugins', 'sync'): \nPrevents '-nofetch' from being used when installing git repository plugins. This is mostly an issue with cordova versions below 8, it will fail installing plugins from git repositories because it attempts to add them as an npm package instead of using git. By default nofetch is used to prevent this issue from happening. \n\
+\n'-noadd' | '-na' | (Commands: 'clean', 'plugins', 'platforms', 'sync'): \nPrevents adding plugins/platforms. Use this if you only want to remove installed plugins/platforms, without adding from the config.xml. \
+\nNOTE: All options can be added with single or double dashes '-'.\n";
 
 exports.optionMessages = {
     noForce: "NO FORCE",

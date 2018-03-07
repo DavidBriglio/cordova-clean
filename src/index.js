@@ -7,11 +7,11 @@ var processes = require("./process.js");
 var command = process.argv[2];
 
 var options = {
-    noForce: (process.argv.indexOf("--noforce") >= 0 || process.argv.indexOf("--nf") >= 0),
-    noRemove: (process.argv.indexOf("--noremove") >= 0 || process.argv.indexOf("--nr") >= 0),
-    fetch: (process.argv.indexOf("--gitfetch") >= 0 || process.argv.indexOf("--gf") >= 0),
-    noAdd: (process.argv.indexOf("--noadd") >= 0 || process.argv.indexOf("--na") >= 0),
-    soft: (process.argv.indexOf("--soft") >= 0 || process.argv.indexOf("--s") >= 0)
+    noForce: methods.hasOption(process.argv, "noforce", "nf"),
+    noRemove: methods.hasOption(process.argv, "noremove", "nr"),
+    fetch: methods.hasOption(process.argv, "gitfetch", "gf"),
+    noAdd: methods.hasOption(process.argv, "noadd", "na"),
+    soft: methods.hasOption(process.argv, "soft", "s")
 };
 
 // Display which cli options were included

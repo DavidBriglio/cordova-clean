@@ -3,6 +3,7 @@
 ### v1.2.1 - 03/07/2018
 - Fixed issue with installing plugins from file paths (replaced '\\' with '/')
 - Added package version command
+- Options can now be entered with single or double '-', ie: '--option1' and '-option1'
 
 ### v1.2.0 - 03/05/2018
 - Added `sync` command

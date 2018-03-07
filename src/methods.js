@@ -1,6 +1,10 @@
 var fs = require('fs');
 var cmd = require('child_process');
 
+exports.hasOption = function(args, full, short) {
+    return (args.indexOf("--" + full) >= 0 || args.indexOf("-" + full) >= 0 || args.indexOf("--" + short) >= 0 || args.indexOf("-" + short) >= 0);
+};
+
 exports.loadConfig = function() {
     var content = null;
     if (!fs.existsSync(process.cwd() + "/config.xml")) {
