@@ -29,6 +29,7 @@ Run the shell command: `cordova-clean <COMMAND> <OPTIONS>`
 | `-noforce` | `-nf` | `clean`, `plugins` | Prevents force uninstall plugins. By default all plugins are removed using the `-force` flag, this way all plugins will be removed even if they are dependencies to other plugins. |
 | `-gitfetch` | `-gf` | `clean`, `plugins`, `sync` | Prevents `-nofetch` from being used when installing git repository plugins. This is mostly an issue with cordova versions below 8, it will fail installing plugins from git repositories because it attempts to add them as an npm package instead of using git. By default nofetch is used to prevent this issue from happening. |
 | `-noadd` | `-na` | `clean`, `plugins`, `platforms`, `sync` | Prevents adding plugins/platforms. Use this if you only want to remove installed plugins/platforms, without adding from the config.xml. |
+
 NOTE: All options can be added with single or double dashes '-'.
 
 # Questions?
