@@ -1,5 +1,8 @@
 # Changelog
 
+### v1.2.2 - 05/11/2018
+- Added -noios and -noandroid options, this prevents those platforms from being added / removed
+
 ### v1.2.1 - 03/07/2018
 - Fixed issue with installing plugins from file paths (replaced '\\' with '/')
 - Added package version command

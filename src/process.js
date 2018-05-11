@@ -36,7 +36,7 @@ exports.platforms = function(config, options) {
         var iplatforms = methods.findInstalledPlatforms();
         
         console.log(messages.consoleMessages.removingInstalledPlatforms);
-        methods.removePlatforms(iplatforms);
+        methods.removePlatforms(iplatforms, options);
     }
     
     if (options.noAdd) {
@@ -46,7 +46,7 @@ exports.platforms = function(config, options) {
         var platforms = methods.findConfigPlatforms(config);
         
         console.log(messages.consoleMessages.installingConfigPlatforms);
-        methods.installPlatforms(platforms);
+        methods.installPlatforms(platforms, options);
     }
 };
 

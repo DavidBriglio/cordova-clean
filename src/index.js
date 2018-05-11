@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = "1.2.1";
+var version = "1.2.2";
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 var processes = require("./process.js");
@@ -11,8 +11,19 @@ var options = {
     noRemove: methods.hasOption(process.argv, "noremove", "nr"),
     fetch: methods.hasOption(process.argv, "gitfetch", "gf"),
     noAdd: methods.hasOption(process.argv, "noadd", "na"),
-    soft: methods.hasOption(process.argv, "soft", "s")
+    soft: methods.hasOption(process.argv, "soft", "s"),
+    noiOS: methods.hasOption(process.argv, "noios", "ni"),
+    noAndroid: methods.hasOption(process.argv, "noandroid", "nand"),
+    skipList: []
 };
+
+if (options.noiOS) {
+    options.skipList.push('ios');
+}
+
+if (options.noAndroid) {
+    options.skipList.push('android');
+}
 
 // Display which cli options were included
 messages.outputOptions(options);

@@ -99,30 +99,39 @@ exports.findConfigPlugins = function(content) {
     return plugins;
 };
 
-exports.removePlatforms = function(platforms) {
+exports.removePlatforms = function(platforms, options) {
     for (var index in platforms) {
         var platform = platforms[index];
-        console.log("\n===> Removing " + platform.name);
-        try {
-            cmd.execSync("cordova platform rm " + platform.name + " --nosave", {
-                stdio: [0, 1, 2]
-            });
-        } catch (e) {
-            // Do nothing, we do not want to stop if there was an error removing a platform
+        if (options.skipList.indexOf(platform.name.toLowerCase()) === -1) {
+            console.log("\n===> Removing " + platform.name);
+            try {
+                cmd.execSync("cordova platform rm " + platform.name + " --nosave", {
+                    stdio: [0, 1, 2]
+                });
+            } catch (e) {
+                // Do nothing, we do not want to stop if there was an error removing a platform
+            }
+        } else {
+            console.log("\n===> Skipping " + platform.name);
         }
+        
     }
 };
 
-exports.installPlatforms = function(platforms) {
+exports.installPlatforms = function(platforms, options) {
     for (var index in platforms) {
         var platform = platforms[index];
-        console.log("\n===> Installing " + platform.name + " @ " + platform.version);
-        try {
-            cmd.execSync("cordova platform add " + platform.name + "@" + platform.version + " --nosave", {
-                stdio: [0, 1, 2]
-            });
-        } catch (e) {
-            // Do nothing, we do not want to stop if there was an error installing the platform
+        if (options.skipList.indexOf(platform.name.toLowerCase()) === -1) {
+            console.log("\n===> Installing " + platform.name + " @ " + platform.version);
+            try {
+                cmd.execSync("cordova platform add " + platform.name + "@" + platform.version + " --nosave", {
+                    stdio: [0, 1, 2]
+                });
+            } catch (e) {
+                // Do nothing, we do not want to stop if there was an error installing the platform
+            }
+        } else {
+            console.log("\n===> Skipping " + platform.name);
         }
     }
 };
