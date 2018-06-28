@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = "1.2.2";
+var version = "1.2.3";
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 var processes = require("./process.js");
@@ -51,13 +51,18 @@ console.log(messages.consoleMessages.intro);
 
 switch (command) {
     case "clean":
-        processes.fullClean(config, options);
+        processes.removePlatforms(config, options);
+        processes.removePlugins(config, options);
+        processes.addPlugins(config, options);
+        processes.addPlatforms(config, options);
         break;
     case "plugins":
-        processes.plugins(config, options);
+        processes.removePlugins(config, options);
+        processes.addPlugins(config, options);
         break;
     case "platforms":
-        processes.platforms(config, options);
+        processes.removePlatforms(config, options);
+        processes.addPlatforms(config, options);
         break;
     case "sync":
         processes.sync(config, options);

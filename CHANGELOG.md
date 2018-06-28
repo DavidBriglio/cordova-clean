@@ -1,5 +1,8 @@
 # Changelog
 
+### v1.2.3 - 06/28/2018
+- Re-ordered operations in 'clean' and 'sync' to increase speed
+
 ### v1.2.2 - 05/11/2018
 - Added -noios and -noandroid options, this prevents those platforms from being added / removed
 

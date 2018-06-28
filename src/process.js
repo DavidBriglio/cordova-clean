@@ -1,12 +1,7 @@
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 
-exports.fullClean = function(config, options) {
-    this.plugins(config, options);
-    this.platforms(config, options);
-};
-
-exports.plugins = function(config, options) {
+exports.removePlugins = function(config, options) {
     if (options.noRemove) {
         console.log(messages.consoleMessages.skipRemove);
     } else {
@@ -16,7 +11,9 @@ exports.plugins = function(config, options) {
         console.log(messages.consoleMessages.removingInstalled);
         methods.removePlugins(iplugins, options);
     }
+};
 
+exports.addPlugins = function(config, options) {
     if (options.noAdd) {
         console.log(messages.consoleMessages.skipAdd);
     } else {
@@ -28,7 +25,7 @@ exports.plugins = function(config, options) {
     }
 };
 
-exports.platforms = function(config, options) {
+exports.removePlatforms = function(config, options) {
     if (options.noRemove) {
         console.log(messages.consoleMessages.skipRemove);
     } else {
@@ -38,7 +35,9 @@ exports.platforms = function(config, options) {
         console.log(messages.consoleMessages.removingInstalledPlatforms);
         methods.removePlatforms(iplatforms, options);
     }
-    
+};
+
+exports.addPlatforms = function(config, options) {
     if (options.noAdd) {
         console.log(messages.consoleMessages.skipAdd);
     } else {
@@ -113,6 +112,14 @@ exports.sync = function(config, options) {
         }
     }
     
+    // Remove platforms
+    if (!options.noRemove && resultPlatforms.remove.length > 0) {
+        console.log(messages.consoleMessages.removingInstalledPlatforms);
+        methods.removePlatforms(resultPlatforms.remove, options);
+    } else if (resultPlatforms.remove.length > 0) {
+        console.log(messages.consoleMessages.skipRemove);
+    }
+
     // Remove plugins
     if (!options.noRemove && resultPlugins.remove.length > 0) {
         console.log(messages.consoleMessages.removingInstalled);
@@ -127,14 +134,6 @@ exports.sync = function(config, options) {
         methods.installPlugins(resultPlugins.install, options);
     } else if(resultPlugins.install.length > 0) {
         console.log(messages.consoleMessages.skipAdd);
-    }
-    
-    // Remove platforms
-    if (!options.noRemove && resultPlatforms.remove.length > 0) {
-        console.log(messages.consoleMessages.removingInstalledPlatforms);
-        methods.removePlatforms(resultPlatforms.remove, options);
-    } else if (resultPlatforms.remove.length > 0) {
-        console.log(messages.consoleMessages.skipRemove);
     }
     
     // Add platforms
