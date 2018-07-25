@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = "1.2.3";
+var version = "1.3.0";
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 var processes = require("./process.js");
@@ -14,6 +14,7 @@ var options = {
     soft: methods.hasOption(process.argv, "soft", "s"),
     noiOS: methods.hasOption(process.argv, "noios", "ni"),
     noAndroid: methods.hasOption(process.argv, "noandroid", "nand"),
+    reLinks: methods.hasOption(process.argv, "addlinks", "al"),
     skipList: []
 };
 
@@ -25,13 +26,17 @@ if (options.noAndroid) {
     options.skipList.push('android');
 }
 
+// Display intro message
+console.log("\n");
+messages.outputMessage("Cordova Clean", true);
+
 // Display which cli options were included
 messages.outputOptions(options);
 
 // Extract the config.xml content
 var config = methods.loadConfig();
 if (!config) {
-    console.log(messages.consoleMessages.done);
+    messages.outputMessage("Done", true);
     return;
 }
 
@@ -46,8 +51,6 @@ switch (command) {
         console.log(version);
         return;
 }
-
-console.log(messages.consoleMessages.intro);
 
 switch (command) {
     case "clean":
@@ -71,4 +74,5 @@ switch (command) {
         console.log(messages.helpMessage);
 }
 
-console.log(messages.consoleMessages.done);
+console.log("\n");
+messages.outputMessage("Done", true);

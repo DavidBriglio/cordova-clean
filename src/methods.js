@@ -21,6 +21,27 @@ exports.loadConfig = function() {
     return content;
 };
 
+exports.findConfigPlugins = function(content) {
+    var plugins = [];
+    var packageFile = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    if (packageFile) {
+        for (var item in packageFile.cordova.plugins) {
+            if (packageFile.cordova.plugins.hasOwnProperty(item)) {
+                var plugin = {
+                    name: item,
+                    version: packageFile.dependencies[item],
+                    variables: packageFile[item]
+                }
+
+                console.log("FOUND " + plugin.name + " @ " + plugin.version);
+                plugins.push(plugin);
+            }
+        }
+    }
+
+    return plugins;
+};
+
 exports.findInstalledPlugins = function() {
     var output = cmd.execSync("cordova plugin ls").toString('utf8');
     var pattern = /(\S*)\s*(\S*)\s".*"/gi;
@@ -31,10 +52,12 @@ exports.findInstalledPlugins = function() {
             name: match[1],
             version: match[2]
         };
+        
         console.log("FOUND " + found.name + " @ " + found.version);
         plugins.push(found);
         match = pattern.exec(output);
     }
+
     return plugins;
 };
 
@@ -60,17 +83,17 @@ exports.findInstalledPlatforms = function() {
 };
 
 exports.findConfigPlatforms = function(content) {
-    var pattern = /<engine[ ]+name=\"(.+)\"[ ]+spec=\"(.+)\"/gi;
-    var match = pattern.exec(content);
+    var packageFile = JSON.parse(fs.readFileSync('package.json', 'utf8'));
     var platforms = [];
-    while (match !== null) {
-        console.log("FOUND " + match[1] + " @ " + match[2]);
-        platforms.push({
-            name: match[1],
-            version: match[2]
-        });
-        match = pattern.exec(content);
+    for (var platform in packageFile.cordova.platforms) {
+        var item = {
+            name: packageFile.cordova.platforms[platform],
+            version: packageFile.dependencies['cordova-' + packageFile.cordova.platforms[platform]]
+        };
+        console.log("FOUND " + item.name + " @ " + item.version);
+        platforms.push(item);
     }
+
     return platforms;
 };
 
@@ -85,18 +108,6 @@ exports.removePlugins = function(plugins, options) {
             // Do nothing, we do not want to stop if there was an error removing a plugin
         }
     }
-};
-
-exports.findConfigPlugins = function(content) {
-    var pattern = /<plugin[ ]+name=\"(.+)\"[ ]+spec=\"(.+)\"/gi;
-    var match = pattern.exec(content);
-    var plugins = [];
-    while (match !== null) {
-        console.log("FOUND " + match[1] + " @ " + match[2]);
-        plugins.push({name:match[1], version:match[2]});
-        match = pattern.exec(content);
-    }
-    return plugins;
 };
 
 exports.removePlatforms = function(platforms, options) {
@@ -141,15 +152,24 @@ exports.installPlugins = function(plugins, options) {
         var plugin = plugins[index];
         var pluginLine = "";
         console.log("\n===> Installing " + plugin.name + " @ " + plugin.version);
-        
-        if (plugin.version.match("git+")) {
-            pluginLine = plugin.version + (options.fetch ? "" : " --nofetch");
-        } else if (plugin.version.match("file:")) {
-            pluginLine = plugin.version.replace("file:", "").replace('\\', '/') + " --nofetch";
-        } else {
-            pluginLine = plugin.name + "@" + plugin.version;
+
+        var variables = "";
+        if (plugin.variables) {
+            for (var item in plugin.variables) {
+                if (plugin.variables.hasOwnProperty(item)) {
+                    variables += " --variable " + item + "=" + plugin.variables[item];
+                }
+            }
         }
-        
+
+        if (plugin.version.match("git+")) {
+            pluginLine = plugin.version + variables + (options.fetch ? "" : " --nofetch");
+        } else if (plugin.version.match("file:")) {
+            pluginLine = plugin.version.replace("file:", "").replace('\\', '/') + variables + " --nofetch";
+        } else {
+            pluginLine = plugin.name + "@" + plugin.version + variables;
+        }
+
         try {
             cmd.execSync("cordova plugin add " + pluginLine + " --nosave", {
                 stdio: [0, 1, 2]
@@ -160,25 +180,47 @@ exports.installPlugins = function(plugins, options) {
     }
 };
 
-exports.findMatch = function(item, itemSet, soft) {
+exports.findMatch = function(item, itemSet, options) {
     for (var i = 0; i < itemSet.length; i++) {
-        if (itemSet[i].name === item.name && (soft === true || itemSet[i].version === item.version)) {
+        if (itemSet[i].name === item.name &&
+            ((options.soft || this.versionCheck(itemSet[i].version, item.version)) ||
+            (!options.reLinks && (itemSet[i].version.match("git+") || itemSet[i].version.match("file:"))))) {
             return i;
         }
     }
-    
+
     return null;
+};
+
+exports.versionCheck = function(criteria, version) {
+    var result = false;
+
+    switch (criteria[0]) {
+        case '^':
+            result = parseInt(criteria[1], 10) === parseInt(version[0], 10);
+            break;
+        case '~':
+            result = parseInt(criteria[1], 10) === parseInt(version[0], 10);
+            if (result) {
+                result = parseInt(criteria[3], 10) === parseInt(version[2], 10);
+            }
+            break;
+        default:
+            result = criteria === version;
+    }
+
+    return result;
 };
 
 exports.getDifference = function(installed, config, options) {
     var result = { install:config, remove:[] };
-    
+
     for (var i = 0; i < installed.length; i++) {
-        var found = this.findMatch(installed[i], config, options.soft);
-        if (found !== null) {
-            result.install.splice(found, 1);
-        } else {
+        var found = this.findMatch(installed[i], config, options);
+        if (found === null) {
             result.remove.push(installed[i]);
+        } else {
+            result.install.splice(found, 1);
         }
     }
     
