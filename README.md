@@ -49,7 +49,7 @@ Version checking with the `sync` command works by checking the version listed in
 
 ## Clean Config File
 
-You can put `cordova-clean.json` at the root of your project to set options automatically. All values can be set to either `true` or `false`. If any other value is used, it will default to `false`.
+You can put `cordova-clean.json` at the root of your project to set options automatically. All values can be set to either `true` or `false`. If any other value is used, it will default to `false`. These options will apply to every command that is executed. If you do not wish for one of these options to apply, use the command line argument to set the variable (ie `-noandroid=true`), since command line options override those in the `cordova-clean.json` file.
 
 | Option      |
 | ----------- |
