@@ -39,11 +39,38 @@ Run the shell command: `cordova-clean <COMMAND> <OPTIONS>`
 | `-soft` | `-s` | `sync` | Makes plugin / platform checks only based off of name (no version check). |
 | `-addlinks` | `-al` | `sync` | This forces plugins / platforms added from git or local to be re-added during sync. |
 
-NOTE: All options can be added with single or double dashes '-'.
+You can set these options to `true` or `false` by following the option with `=` and the value: `-noios=true` `-noandroid=false`. This can be used to override options that are defined in the `cordova-clean.json` configuration file.
+
+All options can be added with single or double dashes '-'.
 
 ## Quirks
 
 Version checking with the `sync` command works by checking the version listed in `cordova [platform|plugin] ls` against the version in the package.json file. Plugins and platforms added through local or github repositories will always be skipped by default if the plugin / platform is present (they will be assumed to be up to date). This is because we cannot reliably compare the installed version number to the repository link. If you would like to change the behaviour to re-add these plugins instead of skipping in this situation, add the `-addlinks` option when performing the `sync` command.
+
+## Clean Config File
+
+You can put `cordova-clean.json` at the root of your project to set options automatically. All values can be set to either `true` or `false`. If any other value is used, it will default to `false`.
+
+| Option      |
+| ----------- |
+| `noForce`   |
+| `noRemove`  |
+| `fetch`     |
+| `noAdd`     |
+| `soft`      |
+| `noiOS`     |
+| `noAndroid` |
+| `addLinks`  |
+
+**Example:**
+
+```json
+{
+    "noForce": true,
+    "noiOS": true,
+    "noAndroid": false
+}
+```
 
 ## Questions?
 

@@ -1,34 +1,39 @@
 #!/usr/bin/env node
 
-var version = "1.3.0";
+var version = "1.3.1";
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 var processes = require("./process.js");
 var command = process.argv[2];
 
-var options = {
-    noForce: methods.hasOption(process.argv, "noforce", "nf"),
-    noRemove: methods.hasOption(process.argv, "noremove", "nr"),
-    fetch: methods.hasOption(process.argv, "gitfetch", "gf"),
-    noAdd: methods.hasOption(process.argv, "noadd", "na"),
-    soft: methods.hasOption(process.argv, "soft", "s"),
-    noiOS: methods.hasOption(process.argv, "noios", "ni"),
-    noAndroid: methods.hasOption(process.argv, "noandroid", "nand"),
-    reLinks: methods.hasOption(process.argv, "addlinks", "al"),
+// Display intro message
+console.log("\n");
+messages.outputMessage("Cordova Clean", true);
+
+// Check for clean config file
+var options = methods.getCleanConfig("cordova-clean.json");
+var cmdOptions = methods.getOptions(process.argv);
+
+// Override config file options with command line options
+options = {
+    noForce: methods.hasOption(cmdOptions, "noforce", "nf", options.noForce),
+    noRemove: methods.hasOption(cmdOptions, "noremove", "nr", options.noRemove),
+    fetch: methods.hasOption(cmdOptions, "gitfetch", "gf", options.fetch),
+    noAdd: methods.hasOption(cmdOptions, "noadd", "na", options.noAdd),
+    soft: methods.hasOption(cmdOptions, "soft", "s", options.soft),
+    noiOS: methods.hasOption(cmdOptions, "noios", "ni", options.noiOS),
+    noAndroid: methods.hasOption(cmdOptions, "noandroid", "nand", options.noAndroid),
+    addLinks: methods.hasOption(cmdOptions, "addlinks", "al", options.addLinks),
     skipList: []
 };
 
 if (options.noiOS) {
-    options.skipList.push('ios');
+    options.skipList.push("ios");
 }
 
 if (options.noAndroid) {
-    options.skipList.push('android');
+    options.skipList.push("android");
 }
-
-// Display intro message
-console.log("\n");
-messages.outputMessage("Cordova Clean", true);
 
 // Display which cli options were included
 messages.outputOptions(options);

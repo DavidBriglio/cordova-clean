@@ -1,8 +1,36 @@
-var fs = require('fs');
-var cmd = require('child_process');
+var fs = require("fs");
+var cmd = require("child_process");
 
-exports.hasOption = function(args, full, short) {
-    return (args.indexOf("--" + full) >= 0 || args.indexOf("-" + full) >= 0 || args.indexOf("--" + short) >= 0 || args.indexOf("-" + short) >= 0);
+// Get all options from the command line
+exports.getOptions = function(args) {
+    var options = [];
+    var match;
+    var pattern;
+
+    for (var i = 3; i < args.length; i++) {
+        pattern = /--?([^=]*)=?(.*)?/gi;
+        match = pattern.exec(args[i]);
+        if (match) {
+            options[match[1]] = (match[2] === undefined ? true : match[2].toLowerCase() === "true");
+        }
+    }
+
+    return options;
+};
+
+// Check to see if option exists in options object
+exports.hasOption = function(options, long, short, defaultValue) {
+    var value = false;
+
+    if (options[long] !== undefined) {
+        value = options[long] === true;
+    } else if (options[short] !== undefined) {
+        value = options[short] === true;
+    } else if (defaultValue !== undefined) {
+        value = defaultValue === true;
+    }
+
+    return value;
 };
 
 exports.loadConfig = function() {
@@ -23,7 +51,7 @@ exports.loadConfig = function() {
 
 exports.findConfigPlugins = function(content) {
     var plugins = [];
-    var packageFile = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    var packageFile = JSON.parse(fs.readFileSync("package.json", "utf8"));
     if (packageFile) {
         for (var item in packageFile.cordova.plugins) {
             if (packageFile.cordova.plugins.hasOwnProperty(item)) {
@@ -31,7 +59,7 @@ exports.findConfigPlugins = function(content) {
                     name: item,
                     version: packageFile.dependencies[item],
                     variables: packageFile[item]
-                }
+                };
 
                 console.log("FOUND " + plugin.name + " @ " + plugin.version);
                 plugins.push(plugin);
@@ -43,7 +71,7 @@ exports.findConfigPlugins = function(content) {
 };
 
 exports.findInstalledPlugins = function() {
-    var output = cmd.execSync("cordova plugin ls").toString('utf8');
+    var output = cmd.execSync("cordova plugin ls").toString("utf8");
     var pattern = /(\S*)\s*(\S*)\s".*"/gi;
     var match = pattern.exec(output);
     var plugins = [];
@@ -62,7 +90,7 @@ exports.findInstalledPlugins = function() {
 };
 
 exports.findInstalledPlatforms = function() {
-    var output = cmd.execSync("cordova platform ls").toString('utf8');
+    var output = cmd.execSync("cordova platform ls").toString("utf8");
     var pattern = /(\S*)\s.?(\d)\.(\d).(\d)/gi;
     var index = output.indexOf("Available");
     if (index >= 0) {
@@ -83,12 +111,12 @@ exports.findInstalledPlatforms = function() {
 };
 
 exports.findConfigPlatforms = function(content) {
-    var packageFile = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    var packageFile = JSON.parse(fs.readFileSync("package.json", "utf8"));
     var platforms = [];
     for (var platform in packageFile.cordova.platforms) {
         var item = {
             name: packageFile.cordova.platforms[platform],
-            version: packageFile.dependencies['cordova-' + packageFile.cordova.platforms[platform]]
+            version: packageFile.dependencies["cordova-" + packageFile.cordova.platforms[platform]]
         };
         console.log("FOUND " + item.name + " @ " + item.version);
         platforms.push(item);
@@ -165,7 +193,7 @@ exports.installPlugins = function(plugins, options) {
         if (plugin.version.match("git+")) {
             pluginLine = plugin.version + variables + (options.fetch ? "" : " --nofetch");
         } else if (plugin.version.match("file:")) {
-            pluginLine = plugin.version.replace("file:", "").replace('\\', '/') + variables + " --nofetch";
+            pluginLine = plugin.version.replace("file:", "").replace("\\", "/") + variables + " --nofetch";
         } else {
             pluginLine = plugin.name + "@" + plugin.version + variables;
         }
@@ -184,7 +212,7 @@ exports.findMatch = function(item, itemSet, options) {
     for (var i = 0; i < itemSet.length; i++) {
         if (itemSet[i].name === item.name &&
             ((options.soft || this.versionCheck(itemSet[i].version, item.version)) ||
-            (!options.reLinks && (itemSet[i].version.match("git+") || itemSet[i].version.match("file:"))))) {
+            (!options.addLinks && (itemSet[i].version.match("git+") || itemSet[i].version.match("file:"))))) {
             return i;
         }
     }
@@ -196,10 +224,10 @@ exports.versionCheck = function(criteria, version) {
     var result = false;
 
     switch (criteria[0]) {
-        case '^':
+        case "^":
             result = parseInt(criteria[1], 10) === parseInt(version[0], 10);
             break;
-        case '~':
+        case "~":
             result = parseInt(criteria[1], 10) === parseInt(version[0], 10);
             if (result) {
                 result = parseInt(criteria[3], 10) === parseInt(version[2], 10);
@@ -225,4 +253,31 @@ exports.getDifference = function(installed, config, options) {
     }
     
     return result;
+};
+
+exports.getCleanConfig = function(path) {
+    var config = {};
+    var cleanFile;
+
+    if (!fs.existsSync(path)) {
+        return config;
+    }
+
+    console.log("===> Clean Configuration File Found");
+
+    try {
+        cleanFile = fs.readFileSync(path, "utf8");
+    } catch (e) {
+        console.log("===> ERROR: Unable to load clean configuration file.");
+    }
+
+    if (cleanFile) {
+        try {
+            config = JSON.parse(cleanFile);
+        } catch (e) {
+            console.log("===> ERROR: Invalid clean configuration file.");
+        }
+    }
+
+    return config;
 };

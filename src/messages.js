@@ -36,7 +36,7 @@ exports.outputMessage = function (message, spaced) {
         output += "=";
     }
 
-    console.log("\n" + (output.length < 58 ? output + '=' : output) + (spaced ? "\n" : ""));
+    console.log("\n" + (output.length < 58 ? output + "=" : output) + (spaced ? "\n" : ""));
 };
 
 exports.helpMessage = "\nAvailable Commands: \n\
@@ -64,7 +64,7 @@ exports.optionMessages = {
     noiOS: "NO IOS",
     noAndroid: "NO ANDROID",
     soft: "SOFT SYNC",
-    reLinks: "RE-ADD GIT+LOCAL"
+    addLinks: "RE-ADD GIT+LOCAL"
 };
 
 exports.outputOptions = function(options) {

@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.1 - 07/26/2018
+
+- Added clean config file support, to always apply options for all operations
+- Added support for option values (ie `-noios=false`, `-noandroid=true`) to override clean config file
+
 ## v1.3.0 - 07/25/2018
 
 - Changed intro text and moved option output after intro output
