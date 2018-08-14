@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.2 - 08/14/2018
+
+- Fixed variable plugin install
+
 ## v1.3.1 - 07/26/2018
 
 - Added clean config file support, to always apply options for all operations

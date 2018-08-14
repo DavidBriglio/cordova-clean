@@ -58,10 +58,11 @@ exports.findConfigPlugins = function(content) {
                 var plugin = {
                     name: item,
                     version: packageFile.dependencies[item],
-                    variables: packageFile[item]
+                    variables: packageFile.cordova.plugins[item]
                 };
 
                 console.log("FOUND " + plugin.name + " @ " + plugin.version);
+                console.log("\tVariables: ", plugin.variables);
                 plugins.push(plugin);
             }
         }
