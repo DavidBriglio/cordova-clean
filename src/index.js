@@ -55,26 +55,30 @@ if (!methods.checkRequirements()) {
 // Display which cli options were included
 messages.outputOptions(options);
 
-switch (command) {
-    case "clean":
-        processes.removePlatforms(options);
-        processes.removePlugins(options);
-        processes.addPlugins(options);
-        processes.addPlatforms(options);
-        break;
-    case "plugins":
-        processes.removePlugins(options);
-        processes.addPlugins(options);
-        break;
-    case "platforms":
-        processes.removePlatforms(options);
-        processes.addPlatforms(options);
-        break;
-    case "sync":
-        processes.sync(options);
-        break;
-    default:
-        console.log(messages.helpMessage);
+try {
+    switch (command) {
+        case "clean":
+            processes.removePlatforms(options);
+            processes.removePlugins(options);
+            processes.addPlugins(options);
+            processes.addPlatforms(options);
+            break;
+        case "plugins":
+            processes.removePlugins(options);
+            processes.addPlugins(options);
+            break;
+        case "platforms":
+            processes.removePlatforms(options);
+            processes.addPlatforms(options);
+            break;
+        case "sync":
+            processes.sync(options);
+            break;
+        default:
+            console.log(messages.helpMessage);
+    }
+} catch (e) {
+    // Fail silently, since if we have an issue with cordova it will output the error
 }
 
 console.log("\n");
