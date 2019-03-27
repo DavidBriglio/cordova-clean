@@ -1,7 +1,7 @@
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 
-exports.removePlugins = function(config, options) {
+exports.removePlugins = function(options) {
     if (options.noRemove) {
         messages.outputMessage(messages.consoleMessages.skipRemove);
     } else {
@@ -13,19 +13,19 @@ exports.removePlugins = function(config, options) {
     }
 };
 
-exports.addPlugins = function(config, options) {
+exports.addPlugins = function(options) {
     if (options.noAdd) {
         messages.outputMessage(messages.consoleMessages.skipAdd);
     } else {
         messages.outputMessage(messages.consoleMessages.findingConfigPlugins);
-        var plugins = methods.findConfigPlugins(config);
+        var plugins = methods.findConfigPlugins();
 
         messages.outputMessage(messages.consoleMessages.installingConfigPlugins);
         methods.installPlugins(plugins, options);
     }
 };
 
-exports.removePlatforms = function(config, options) {
+exports.removePlatforms = function(options) {
     if (options.noRemove) {
         messages.outputMessage(messages.consoleMessages.skipRemove);
     } else {
@@ -37,32 +37,32 @@ exports.removePlatforms = function(config, options) {
     }
 };
 
-exports.addPlatforms = function(config, options) {
+exports.addPlatforms = function(options) {
     if (options.noAdd) {
         messages.outputMessage(messages.consoleMessages.skipAdd);
     } else {
         messages.outputMessage(messages.consoleMessages.findConfigPlatforms);
-        var platforms = methods.findConfigPlatforms(config);
+        var platforms = methods.findConfigPlatforms();
         
         messages.outputMessage(messages.consoleMessages.installingConfigPlatforms);
         methods.installPlatforms(platforms, options);
     }
 };
 
-exports.sync = function(config, options) {
+exports.sync = function(options) {
     options.noForce = true;
     
     messages.outputMessage(messages.consoleMessages.findingInstalled);
     var installedPlugins = methods.findInstalledPlugins();
     
     messages.outputMessage(messages.consoleMessages.findingConfigPlugins);
-    var configPlugins = methods.findConfigPlugins(config);
+    var configPlugins = methods.findConfigPlugins();
     
     messages.outputMessage(messages.consoleMessages.findInstalledPlatforms);
     var installedPlatforms = methods.findInstalledPlatforms();
     
     messages.outputMessage(messages.consoleMessages.findConfigPlatforms);
-    var configPlatforms = methods.findConfigPlatforms(config);
+    var configPlatforms = methods.findConfigPlatforms();
     var i;
     
     // Get diff

@@ -1,6 +1,6 @@
 {
     "name": "cordova-clean",
-    "version": "1.3.2",
+    "version": "1.3.3",
     "description": "Helps maintain a synchronized cordova repository.",
     "main": "index.js",
     "repository": {
@@ -24,8 +24,5 @@
     "homepage": "https://github.com/DavidBriglio/cordova-clean#readme",
     "bin": {
         "cordova-clean": "./src/index.js"
-    },
-    "dependencies": {
-        "cordova": "*"
     }
 }

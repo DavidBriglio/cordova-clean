@@ -1,6 +1,18 @@
 var fs = require("fs");
 var cmd = require("child_process");
 
+exports.checkRequirements = function() {
+    var status = true;
+
+    // Check package file
+    if (!fs.existsSync(process.cwd() + "/package.json")) {
+        console.error("\n==> ERROR: No package.json found!");
+        status = false;
+    }
+
+    return status;
+};
+
 // Get all options from the command line
 exports.getOptions = function(args) {
     var options = [];
@@ -33,25 +45,10 @@ exports.hasOption = function(options, long, short, defaultValue) {
     return value;
 };
 
-exports.loadConfig = function() {
-    var content = null;
-    if (!fs.existsSync(process.cwd() + "/config.xml")) {
-        console.error("\n==> ERROR: No config.xml found!");
-        return content;
-    }
-
-    try {
-        content = fs.readFileSync(process.cwd() + "/config.xml");
-    } catch (e) {
-        //
-    }
-
-    return content;
-};
-
-exports.findConfigPlugins = function(content) {
+exports.findConfigPlugins = function() {
     var plugins = [];
     var packageFile = JSON.parse(fs.readFileSync("package.json", "utf8"));
+
     if (packageFile) {
         for (var item in packageFile.cordova.plugins) {
             if (packageFile.cordova.plugins.hasOwnProperty(item)) {
@@ -76,6 +73,7 @@ exports.findInstalledPlugins = function() {
     var pattern = /(\S*)\s*(\S*)\s".*"/gi;
     var match = pattern.exec(output);
     var plugins = [];
+
     while (match !== null) {
         var found = {
             name: match[1],
@@ -94,11 +92,14 @@ exports.findInstalledPlatforms = function() {
     var output = cmd.execSync("cordova platform ls").toString("utf8");
     var pattern = /(\S*)\s.?(\d)\.(\d).(\d)/gi;
     var index = output.indexOf("Available");
+
     if (index >= 0) {
         output = output.substring(0, index);
     }
+
     var match = pattern.exec(output);
     var platforms = [];
+
     while (match !== null) {
         var found = {
             name: match[1],
@@ -108,12 +109,14 @@ exports.findInstalledPlatforms = function() {
         platforms.push(found);
         match = pattern.exec(output);
     }
+
     return platforms;
 };
 
-exports.findConfigPlatforms = function(content) {
+exports.findConfigPlatforms = function() {
     var packageFile = JSON.parse(fs.readFileSync("package.json", "utf8"));
     var platforms = [];
+
     for (var platform in packageFile.cordova.platforms) {
         var item = {
             name: packageFile.cordova.platforms[platform],
@@ -154,7 +157,6 @@ exports.removePlatforms = function(platforms, options) {
         } else {
             console.log("\n===> Skipping " + platform.name);
         }
-        
     }
 };
 

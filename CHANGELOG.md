@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.3 - 03/27/2019
+
+- Removed references to config.xml, now only using package.json (compliant with cordova 9+)
+- Removed cordova dependency that was causing cordova to be installed within the package directory
+
 ## v1.3.2 - 08/14/2018
 
 - Fixed variable plugin install
