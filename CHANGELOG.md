@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.5 - 04/01/2019
+
+- Added gitignore
+
 ## v1.3.4 - 04/01/2019
 
 - Moved message output order to show only version number on version command, and to show config related messages after welcome banner
