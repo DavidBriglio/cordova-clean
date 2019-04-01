@@ -1,10 +1,26 @@
 #!/usr/bin/env node
 
-var version = "1.3.3";
+var version = "1.3.4";
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 var processes = require("./process.js");
 var command = process.argv[2];
+
+// Process version command before others, that way we don't log intro / outro messages
+switch (command) {
+    case "--version":
+    case "-version":
+    case "v":
+    case "version":
+    case "--v":
+    case "-v":
+        console.log(version);
+        return;
+}
+
+// Display intro message
+console.log("\n");
+messages.outputMessage("Cordova Clean", true);
 
 // Check for clean config file
 var options = methods.getCleanConfig("cordova-clean.json");
@@ -30,22 +46,6 @@ if (options.noiOS) {
 if (options.noAndroid) {
     options.skipList.push("android");
 }
-
-// Process version command before others, that way we don't log intro / outro messages
-switch (command) {
-    case "--version":
-    case "-version":
-    case "v":
-    case "version":
-    case "--v":
-    case "-v":
-        console.log(version);
-        return;
-}
-
-// Display intro message
-console.log("\n");
-messages.outputMessage("Cordova Clean", true);
 
 // Make sure we have all requirements
 if (!methods.checkRequirements()) {
