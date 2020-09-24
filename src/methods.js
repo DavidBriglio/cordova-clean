@@ -54,7 +54,7 @@ exports.findConfigPlugins = function() {
             if (packageFile.cordova.plugins.hasOwnProperty(item)) {
                 var plugin = {
                     name: item,
-                    version: packageFile.dependencies[item],
+                    version: packageFile.devDependencies[item] || packageFile.dependencies[item],
                     variables: packageFile.cordova.plugins[item]
                 };
 

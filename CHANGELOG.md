@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.1 - 24/09/2020
+
+- Added support for plugins located in devDependencies
+
 ## v1.4.0 - 24/09/2020
 
 - Added support for platforms located in devDependencies
