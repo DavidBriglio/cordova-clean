@@ -118,9 +118,10 @@ exports.findConfigPlatforms = function() {
     var platforms = [];
 
     for (var platform in packageFile.cordova.platforms) {
+        var platformName = "cordova-" + packageFile.cordova.platforms[platform];
         var item = {
             name: packageFile.cordova.platforms[platform],
-            version: packageFile.dependencies["cordova-" + packageFile.cordova.platforms[platform]]
+            version: packageFile.devDependencies[platformName] || packageFile.dependencies[platformName]
         };
         console.log("FOUND " + item.name + " @ " + item.version);
         platforms.push(item);

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.0 - 24/09/2020
+
+- Added support for platforms located in devDependencies
+
 ## v1.3.5 - 04/01/2019
 
 - Added gitignore

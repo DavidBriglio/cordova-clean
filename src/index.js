@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = "1.3.5"
+var version = "1.4.0";
 var methods = require("./methods.js");
 var messages = require("./messages.js");
 var processes = require("./process.js");
