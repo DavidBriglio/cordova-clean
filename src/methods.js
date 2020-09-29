@@ -52,14 +52,27 @@ exports.findConfigPlugins = function() {
     if (packageFile) {
         for (var item in packageFile.cordova.plugins) {
             if (packageFile.cordova.plugins.hasOwnProperty(item)) {
+                var dependencies = { ...(packageFile.devDependencies || {}), ...(packageFile.dependencies || {}) };
+                var pluginName = item;
+                
+                // Get the real package name from the plugin name (may have '@source/name')
+                if (!dependencies[pluginName]) {
+                  pluginName = Object.keys(dependencies).find(dep => dep.includes('/' + pluginName)) || item;
+                }
+
                 var plugin = {
-                    name: item,
-                    version: packageFile.devDependencies[item] || packageFile.dependencies[item],
+                    name: pluginName,
+                    version: dependencies[pluginName],
                     variables: packageFile.cordova.plugins[item]
                 };
 
                 console.log("FOUND " + plugin.name + " @ " + plugin.version);
-                console.log("\tVariables: ", plugin.variables);
+
+                // Only output variables if we found any
+                if (Object.keys(plugin.variables) > 0) {
+                  console.log("\tVariables: ", plugin.variables);
+                }
+                
                 plugins.push(plugin);
             }
         }

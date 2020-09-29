@@ -1,6 +1,6 @@
 {
     "name": "cordova-clean",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "Helps maintain a synchronized cordova repository.",
     "main": "index.js",
     "repository": {
@@ -24,5 +24,13 @@
     "homepage": "https://github.com/DavidBriglio/cordova-clean#readme",
     "bin": {
         "cordova-clean": "./src/index.js"
+    },
+    "eslintConfig": {
+      "env": {
+        "es6": true
+      },
+      "parserOptions": {
+        "ecmaVersion": 2018
+      }
     }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.2 - 29/09/2020
+
+- Added support for plugin names with prefixes (ie: @mycompany/plugin-name)
+
 ## v1.4.1 - 24/09/2020
 
 - Added support for plugins located in devDependencies
